@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drift Thailand — Curated Experiences</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E2C47A;
+  --gold-dim: rgba(201,168,76,0.12);
+  --cream: #F5F0E8;
+  --cream-dim: rgba(245,240,232,0.65);
+  --dark: #080808;
+  --dark2: #101010;
+  --dark3: #181818;
+  --dark4: #222;
+  --green: #1E3A0F;
+  --teal: #0D3333;
+  --border: rgba(201,168,76,0.18);
+  --border-light: rgba(245,240,232,0.07);
+}
+body { background:var(--dark); color:var(--cream); font-family:'Cormorant Garamond',Georgia,serif; overflow-x:hidden; line-height:1.7; }
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* CURSOR */
+.cursor{width:6px;height:6px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+.cursor-ring{width:30px;height:30px;border:1px solid rgba(201,168,76,.45);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease}
+@media(hover:none){.cursor,.cursor-ring{display:none}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s;background:linear-gradient(180deg,rgba(8,8,8,.95) 0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+nav.scrolled{background:rgba(8,8,8,.97)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);font-style:italic;line-height:1}
+.nav-logo span{color:var(--cream-dim);font-style:normal;font-weight:300;font-size:.7rem;display:block;letter-spacing:.25em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--cream-dim);text-decoration:none;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;font-family:'DM Mono',monospace;font-weight:300;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.5rem 1.3rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none}
+.nav-cta:hover{background:var(--gold);color:var(--dark)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:22px;height:1px;background:var(--gold);display:block;transition:all .3s}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,8,8,.98);z-index:999;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--cream);text-decoration:none;font-size:2rem;font-family:'Playfair Display',serif;transition:color .3s}
+.mobile-menu a:hover{color:var(--gold)}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:1px solid var(--border);color:var(--cream);width:40px;height:40px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding:6rem 2rem 5rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 15% 60%,rgba(30,58,15,.45) 0%,transparent 55%),radial-gradient(ellipse at 85% 25%,rgba(13,51,51,.4) 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(201,168,76,.08) 0%,transparent 45%),linear-gradient(160deg,#050505 0%,#0a0a0a 40%,#080d08 70%,#050505 100%)}
+.hero-particles{position:absolute;inset:0;overflow:hidden}
+.particle{position:absolute;width:1px;height:1px;background:var(--gold);border-radius:50%;animation:floatP linear infinite;opacity:0}
+@keyframes floatP{0%{transform:translateY(100vh);opacity:0}10%{opacity:.6}90%{opacity:.2}100%{transform:translateY(-10vh) translateX(20px);opacity:0}}
+.hero-content{position:relative;z-index:2;max-width:860px}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:0;animation:fadeUp 1s .3s forwards}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,10vw,7.5rem);font-weight:400;line-height:.95;letter-spacing:-.02em;opacity:0;animation:fadeUp 1s .5s forwards}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:300;color:var(--cream-dim);max-width:560px;margin:2rem auto 0;line-height:1.85;opacity:0;animation:fadeUp 1s .7s forwards}
+.hero-actions{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;opacity:0;animation:fadeUp 1s .9s forwards}
+.btn-primary{background:var(--gold);color:var(--dark);padding:.95rem 2.4rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s;border:none;cursor:pointer;display:inline-block}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.3)}
+.btn-secondary{background:transparent;color:var(--cream);padding:.95rem 2.4rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s;border:1px solid var(--border-light);display:inline-block;cursor:pointer}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeUp 1s 1.2s forwards}
+.hero-scroll span{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:#555;text-transform:uppercase}
+.scroll-line{width:1px;height:45px;background:linear-gradient(180deg,var(--gold) 0%,transparent 100%);animation:scrollPulse 2s infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ABOUT */
+.about{padding:8rem 2rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+@media(max-width:768px){.about{grid-template-columns:1fr;gap:3rem;padding:5rem 1.5rem}}
+.section-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:block}
+.about h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:400;line-height:1.2;margin-bottom:1.5rem}
+.about h2 em{font-style:italic;color:var(--gold)}
+.about p{color:var(--cream-dim);font-size:1.1rem;line-height:1.9;margin-bottom:1.2rem}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem}
+.stat-item{border-top:1px solid var(--border);padding-top:1.2rem}
+.stat-number{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gold);display:block;font-style:italic}
+.stat-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim);margin-top:.3rem;display:block}
+.about-card{background:var(--dark3);border:1px solid var(--border);padding:2.8rem;position:relative;overflow:hidden}
+.about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.about-card-icon{font-size:2.8rem;margin-bottom:1.5rem}
+.about-card h3{font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:1rem}
+.about-card p{color:var(--cream-dim);font-size:1rem;line-height:1.8}
+.about-card-tag{position:absolute;top:1.5rem;right:1.5rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+
+/* PARALLAX STRIP */
+.parallax-strip{height:280px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.strip-bg{position:absolute;inset:-60px;will-change:transform}
+.strip-content{position:relative;z-index:2;text-align:center;padding:0 2rem}
+.strip-content h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,3rem);font-style:italic;line-height:1.3}
+.strip-content p{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-top:.8rem}
+
+/* EXPERIENCES */
+.experiences{padding:6rem 2rem;background:linear-gradient(180deg,var(--dark) 0%,var(--dark2) 50%,var(--dark) 100%)}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-header h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:400;line-height:1.2;margin-top:.8rem}
+.section-header h2 em{font-style:italic;color:var(--gold)}
+.section-header p{color:var(--cream-dim);font-size:1.1rem;max-width:560px;margin:1rem auto 0;line-height:1.8}
+
+/* TABS */
+.category-tabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:3.5rem;flex-wrap:wrap;padding:0 1rem}
+.tab-btn{background:transparent;border:1px solid var(--border);color:var(--cream-dim);padding:.55rem 1.4rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.tab-btn:hover,.tab-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+
+/* GRID */
+.trips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;max-width:1280px;margin:0 auto}
+@media(max-width:480px){.trips-grid{grid-template-columns:1fr}}
+.trip-card{background:var(--dark3);border:1px solid var(--border-light);position:relative;overflow:hidden;cursor:pointer;transition:all .4s ease;display:flex;flex-direction:column}
+.trip-card:hover{border-color:var(--gold);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.trip-visual{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.trip-emoji{font-size:3.8rem;position:relative;z-index:2;transition:transform .4s;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))}
+.trip-card:hover .trip-emoji{transform:scale(1.15)}
+.trip-body{padding:1.7rem;flex:1;display:flex;flex-direction:column}
+.trip-tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:block}
+.trip-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;margin-bottom:.7rem;line-height:1.3}
+.trip-card p{color:var(--cream-dim);font-size:.92rem;line-height:1.75;flex:1}
+.trip-footer{padding:1.1rem 1.7rem;border-top:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.2)}
+.trip-price-thb{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold)}
+.trip-price-usd{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--cream-dim);margin-top:2px}
+.trip-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.45rem 1rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block}
+.trip-btn:hover{background:var(--gold);color:var(--dark)}
+.premium-card{border-color:rgba(201,168,76,.35)}
+.premium-card:hover{border-color:var(--gold);box-shadow:0 20px 60px rgba(201,168,76,.12)}
+.premium-badge{position:absolute;top:1rem;left:1rem;background:var(--gold);color:var(--dark);font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .7rem;z-index:3}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(10px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--dark3);border:1px solid var(--border);max-width:660px;width:100%;max-height:88vh;overflow-y:auto;position:relative;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.modal-hdr{padding:2.2rem 2.2rem 1.5rem;border-bottom:1px solid var(--border);position:relative}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:1px solid var(--border);color:var(--cream);width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+.modal-emoji{font-size:2.8rem;margin-bottom:1rem;display:block}
+.modal-tag{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem;display:block}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:400}
+.modal-body{padding:1.8rem 2.2rem}
+.modal-body p{color:var(--cream-dim);font-size:1rem;line-height:1.9;margin-bottom:1.2rem}
+.modal-hl h4{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.hl-item{display:flex;gap:.8rem;margin-bottom:.7rem;font-size:.93rem;color:var(--cream-dim);align-items:flex-start}
+.hl-item::before{content:'◆';color:var(--gold);font-size:.45rem;margin-top:.45rem;flex-shrink:0}
+.modal-pricing{background:rgba(201,168,76,.05);border:1px solid var(--border);padding:1.4rem;margin:1.5rem 0}
+.modal-pricing h4{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.price-row{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.93rem}
+.price-row span:first-child{color:var(--cream-dim)}
+.price-row span:last-child{font-family:'DM Mono',monospace;color:var(--cream)}
+.modal-acts{display:flex;gap:.8rem;flex-wrap:wrap;padding:1.5rem 2.2rem 2.2rem}
+.modal-acts a{flex:1;min-width:120px;text-align:center;padding:.85rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.m-wa{background:#25D366;color:#fff}.m-wa:hover{background:#1fba59}
+.m-line{background:#06C755;color:#fff}.m-line:hover{background:#05b04b}
+.m-email{background:transparent;border:1px solid var(--border);color:var(--cream)}.m-email:hover{border-color:var(--gold);color:var(--gold)}
+
+/* HOW IT WORKS */
+.how{padding:8rem 2rem;max-width:1100px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem;margin-top:4rem}
+.step{text-align:center;padding:2.5rem 1.5rem;border:1px solid var(--border-light);transition:border-color .3s}
+.step:hover{border-color:var(--gold)}
+.step-n{font-family:'Playfair Display',serif;font-size:3.8rem;color:var(--gold-dim);font-style:italic;display:block;line-height:1;margin-bottom:1rem}
+.step h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.7rem}
+.step p{color:var(--cream-dim);font-size:.9rem;line-height:1.75}
+
+/* PRICING */
+.pricing{padding:8rem 2rem;background:var(--dark2)}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;max-width:980px;margin:4rem auto 0}
+.p-card{background:var(--dark3);border:1px solid var(--border-light);padding:2.4rem;position:relative;overflow:hidden;transition:all .3s}
+.p-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.p-card.featured{border-color:var(--gold)}
+.p-card.featured::before{content:'MOST POPULAR';position:absolute;top:1rem;right:-2.2rem;background:var(--gold);color:var(--dark);font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;padding:.3rem 3rem;transform:rotate(45deg)}
+.p-card h3{font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:.4rem}
+.p-tagline{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:1.8rem;display:block}
+.p-thb{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-style:italic;display:block}
+.p-usd{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--cream-dim);margin-bottom:1.8rem;display:block}
+.p-features{list-style:none;margin-bottom:1.8rem}
+.p-features li{padding:.55rem 0;border-bottom:1px solid var(--border-light);font-size:.92rem;color:var(--cream-dim);display:flex;gap:.6rem;align-items:center}
+.p-features li::before{content:'✦';color:var(--gold);font-size:.5rem}
+.p-btn{width:100%;padding:.85rem;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;border:1px solid var(--gold);background:transparent;color:var(--gold)}
+.p-card.featured .p-btn{background:var(--gold);color:var(--dark)}
+.p-btn:hover{background:var(--gold);color:var(--dark)}
+
+/* TRUST */
+.trust{padding:6rem 2rem;text-align:center}
+.trust-inner{max-width:680px;margin:0 auto}
+.divider{display:flex;align-items:center;gap:1.5rem;margin-bottom:3rem}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.trust-quote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,3vw,1.8rem);font-style:italic;font-weight:300;line-height:1.7;color:var(--cream);margin:1.5rem 0}
+.trust-mark{font-size:3.5rem;color:var(--gold);line-height:.5;display:block;margin-bottom:1rem;font-family:Georgia,serif}
+.trust-sig{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+
+/* CONTACT */
+.contact{padding:8rem 2rem;background:var(--dark2)}
+.contact-inner{max-width:900px;margin:0 auto}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:4rem;align-items:start}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr;gap:3rem}}
+.contact-info h3,.contact-form-side h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1rem}
+.contact-info p,.contact-form-side p{color:var(--cream-dim);font-size:1rem;line-height:1.85;margin-bottom:1.8rem}
+.channels{display:flex;flex-direction:column;gap:.9rem}
+.channel{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border:1px solid var(--border-light);text-decoration:none;color:var(--cream);transition:all .3s}
+.channel:hover{border-color:var(--gold);transform:translateX(4px)}
+.ch-icon{font-size:1.4rem;flex-shrink:0}
+.ch-info{flex:1}
+.ch-label{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.15rem}
+.ch-val{font-size:.92rem;color:var(--cream-dim)}
+.ch-arrow{color:var(--gold);font-size:.8rem}
+.form-group{margin-bottom:1.1rem}
+.form-group label{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.45rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--dark3);border:1px solid var(--border-light);color:var(--cream);padding:.85rem 1rem;font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .3s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group select{cursor:pointer}
+.form-group select option{background:var(--dark3)}
+.form-group textarea{resize:vertical;min-height:95px}
+.form-submit{width:100%;background:var(--gold);color:var(--dark);border:none;padding:.95rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:.3rem}
+.form-submit:hover{background:var(--gold-light)}
+
+/* FOOTER */
+footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);font-style:italic}
+.footer-txt{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--cream-dim);text-align:center}
+.footer-links{display:flex;gap:1.8rem}
+.footer-links a{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--cream-dim);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+
+/* FLOATING CTA */
+.floating-cta{position:fixed;bottom:2rem;right:1.5rem;z-index:500;display:flex;flex-direction:column;gap:.7rem;opacity:0;transition:opacity .4s;pointer-events:none}
+.floating-cta.visible{opacity:1;pointer-events:all}
+.float-btn{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .2s}
+.float-btn:hover{transform:scale(1.1)}
+.float-wa{background:#25D366}
+.float-line{background:#06C755}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(35px);transition:all .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="floating-cta" id="floatingCta">
+  <a href="https://wa.me/660650350098" target="_blank" class="float-btn float-wa" title="WhatsApp">💬</a>
+  <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="float-btn float-line" title="LINE">💚</a>
+</div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <a href="#experiences" onclick="closeMobile()">Experiences</a>
+  <a href="#how" onclick="closeMobile()">How It Works</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<nav id="nav">
+  <div class="nav-logo">Drift Thailand<span>Curated Experiences</span></div>
+  <ul class="nav-links">
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Plan My Trip</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Thailand — Curated for the Soulful Traveller</div>
+    <h1 class="hero-title">Stop Touring.<br><em>Start Drifting.</em></h1>
+    <p class="hero-sub">Handcrafted Thailand experiences designed for people who want to feel something — not just see everything.</p>
+    <div class="hero-actions">
+      <a href="#experiences" class="btn-primary">Explore Experiences</a>
+      <a href="#contact" class="btn-secondary">Talk to a Guide</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="reveal">
+    <span class="section-label">Who We Are</span>
+    <h2>Not an agency.<br><em>A local friend</em><br>who knows Thailand.</h2>
+    <p>We live here. We road trip here. We know the cafés that don't show up on Google, the beaches tourists never find, and the routes that make you feel alive.</p>
+    <p>Drift Thailand is a boutique travel consulting service — one-on-one, personal, and built around how you actually want to travel.</p>
+    <div class="about-stats">
+      <div class="stat-item"><span class="stat-number">20+</span><span class="stat-label">Curated Experiences</span></div>
+      <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Personalised</span></div>
+      <div class="stat-item"><span class="stat-number">0</span><span class="stat-label">Generic Itineraries</span></div>
+      <div class="stat-item"><span class="stat-number">∞</span><span class="stat-label">Hidden Spots</span></div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="about-card">
+      <span class="about-card-tag">Live Local</span>
+      <div class="about-card-icon">🌿</div>
+      <h3>We don't read from a script</h3>
+      <p>Every consultation is a real conversation. You tell us your vibe, your pace, your budget. We build something that actually fits you — not a template with your name swapped in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP 1 -->
+<div class="parallax-strip" id="strip1">
+  <div class="strip-bg" id="stripBg1" style="background:linear-gradient(135deg,#1E3A0F 0%,#0D3333 50%,#080808 100%)"></div>
+  <div class="strip-content">
+    <h2>"Thailand is not a destination.<br>It's a feeling."</h2>
+    <p>Drift Thailand — Est. Bangkok</p>
+  </div>
+</div>
+
+<!-- EXPERIENCES -->
+<section class="experiences" id="experiences">
+  <div class="section-header reveal">
+    <span class="section-label">What We Offer</span>
+    <h2>20 Ways to <em>Experience</em> Thailand</h2>
+    <p>From mountain mist to beach silence — each experience is a world of its own.</p>
+  </div>
+  <div class="category-tabs reveal">
+    <button class="tab-btn active" onclick="filterTrips('all',this)">All 20</button>
+    <button class="tab-btn" onclick="filterTrips('place',this)">By Place</button>
+    <button class="tab-btn" onclick="filterTrips('experience',this)">By Experience</button>
+  </div>
+  <div class="trips-grid" id="tripsGrid"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-header reveal">
+    <span class="section-label">The Process</span>
+    <h2>Simple. <em>Personal.</em> Real.</h2>
+    <p>No bots. No forms. Just a conversation that leads to the trip of your life.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><span class="step-n">01</span><h3>Choose Your Vibe</h3><p>Browse our 20 experiences and pick what speaks to you — or describe something completely different.</p></div>
+    <div class="step reveal"><span class="step-n">02</span><h3>Book a Call</h3><p>We connect on WhatsApp, LINE, or video call. You talk, we listen. 30 to 90 minutes of genuine planning.</p></div>
+    <div class="step reveal"><span class="step-n">03</span><h3>Receive Your Plan</h3><p>A fully personalised itinerary lands in your hands — day by day, with every hidden gem included.</p></div>
+    <div class="step reveal"><span class="step-n">04</span><h3>Drift & Enjoy</h3><p>Go live your Thailand. We're on standby if anything changes or you need on-the-ground advice.</p></div>
+  </div>
+</section>
+
+<!-- STRIP 2 -->
+<div class="parallax-strip" id="strip2">
+  <div class="strip-bg" id="stripBg2" style="background:linear-gradient(135deg,#1A0A00 0%,#3D1A00 50%,#080808 100%)"></div>
+  <div class="strip-content">
+    <h2>"The best trips have<br><em>no fixed ending.</em>"</h2>
+    <p>Drift Thailand — curated, not packaged</p>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-header reveal">
+    <span class="section-label">Investment</span>
+    <h2>Transparent <em>Pricing</em></h2>
+    <p>Pay once. Get a trip that lasts a lifetime in memory.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="p-card reveal">
+      <h3>Quick Consult</h3>
+      <span class="p-tagline">Perfect for first timers</span>
+      <span class="p-thb">฿490</span>
+      <span class="p-usd">≈ $13 USD</span>
+      <ul class="p-features">
+        <li>30 minute video call</li>
+        <li>1 destination focus</li>
+        <li>Key recommendations</li>
+        <li>WhatsApp / LINE follow-up</li>
+      </ul>
+      <button class="p-btn" onclick="scrollContact()">Book Now</button>
+    </div>
+    <div class="p-card featured reveal">
+      <h3>Full Itinerary</h3>
+      <span class="p-tagline">Most popular</span>
+      <span class="p-thb">฿990</span>
+      <span class="p-usd">≈ $27 USD</span>
+      <ul class="p-features">
+        <li>60 minute deep-dive call</li>
+        <li>Full day-by-day itinerary</li>
+        <li>Hotels & café picks</li>
+        <li>Transport & budget breakdown</li>
+        <li>48-hour post-trip support</li>
+      </ul>
+      <button class="p-btn" onclick="scrollContact()">Book Now</button>
+    </div>
+    <div class="p-card reveal">
+      <h3>Premium Experience</h3>
+      <span class="p-tagline">For the discerning traveller</span>
+      <span class="p-thb">฿1,990</span>
+      <span class="p-usd">≈ $54 USD</span>
+      <ul class="p-features">
+        <li>90 minute premium consultation</li>
+        <li>Multi-destination planning</li>
+        <li>Hidden spots guide included</li>
+        <li>On-trip WhatsApp support</li>
+        <li>Full revision included</li>
+        <li>Priority response always</li>
+      </ul>
+      <button class="p-btn" onclick="scrollContact()">Book Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust reveal">
+  <div class="trust-inner">
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+    <span class="trust-mark">"</span>
+    <p class="trust-quote">We don't sell you a package. We help you find the version of Thailand that was always meant for you.</p>
+    <span class="trust-sig">— Drift Thailand</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-header reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2>Let's Plan Your <em>Drift</em></h2>
+      <p>Reach out on any channel. We respond fast.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <h3>We're always on</h3>
+        <p>Based in Thailand. Available across time zones. Reach us on WhatsApp, LINE, or email — whichever feels easiest to you.</p>
+        <div class="channels">
+          <a href="https://wa.me/660650350098" target="_blank" class="channel">
+            <span class="ch-icon">💬</span>
+            <div class="ch-info"><span class="ch-label">WhatsApp</span><span class="ch-val">+66 065 035 0098</span></div>
+            <span class="ch-arrow">→</span>
+          </a>
+          <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="channel">
+            <span class="ch-icon">💚</span>
+            <div class="ch-info"><span class="ch-label">LINE</span><span class="ch-val">reevan_dsouza</span></div>
+            <span class="ch-arrow">→</span>
+          </a>
+          <a href="mailto:dsouzareevan05@gmail.com" class="channel">
+            <span class="ch-icon">✉️</span>
+            <div class="ch-info"><span class="ch-label">Email</span><span class="ch-val">dsouzareevan05@gmail.com</span></div>
+            <span class="ch-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form-side reveal">
+        <h3>Send a message</h3>
+        <p>Tell us a little about your trip and we'll get back to you within hours.</p>
+        <div class="form-group"><label>Your Name</label><input type="text" id="fName" placeholder="How should we call you?"></div>
+        <div class="form-group">
+          <label>Experience Interested In</label>
+          <select id="fTrip">
+            <option value="">Select an experience...</option>
+            <option>High on Mountains</option><option>Beach Escape</option><option>Jungle Immersion</option>
+            <option>Island Hopping</option><option>Hidden South</option><option>Bangkok Deep Dive</option>
+            <option>Road Trip Thailand</option><option>Spiritual Reset</option><option>Foodie Trail</option>
+            <option>Budget Backpacker Blast</option><option>High & Green</option><option>Coffee Crawl</option>
+            <option>Into the Wild</option><option>Muay Thai & Sweat</option><option>Temple & Soul</option>
+            <option>Party Without Apology</option><option>Heal & Reset</option><option>Eat Everything</option>
+            <option>Underwater World</option><option>Slow & Cinematic</option>
+            <option>One Month Through Thailand</option><option>Scenic Rail Journey</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Message</label><textarea id="fMsg" placeholder="Tell us your travel dates, group size, and what you're dreaming of..."></textarea></div>
+        <button class="form-submit" onclick="sendWhatsApp()">Send via WhatsApp →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Drift Thailand</div>
+  <div class="footer-txt">© 2025 Drift Thailand · Curated Experiences · Bangkok, Thailand</div>
+  <div class="footer-links">
+    <a href="#experiences">Experiences</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-hdr">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <span class="modal-emoji" id="mEmoji"></span>
+      <span class="modal-tag" id="mTag"></span>
+      <h2 class="modal-title" id="mTitle"></h2>
+    </div>
+    <div class="modal-body">
+      <p id="mDesc"></p>
+      <div class="modal-hl"><h4>What's Included</h4><div id="mHL"></div></div>
+      <div class="modal-pricing">
+        <h4>Pricing</h4>
+        <div class="price-row"><span>Quick Consult (30 min)</span><span>฿990 / $27</span></div>
+        <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿2,490 / $68</span></div>
+        <div class="price-row"><span>Premium (90 min)</span><span>฿4,990 / $136</span></div>
+      </div>
+    </div>
+    <div class="modal-acts">
+      <a id="mWa" href="#" target="_blank" class="m-wa">💬 WhatsApp</a>
+      <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="m-line">💚 LINE</a>
+      <a href="mailto:dsouzareevan05@gmail.com" class="m-email">✉ Email</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const trips = [
+  {id:1,cat:'place',emoji:'⛰️',tag:'Place-Based',title:'High on Mountains',short:'Chiang Mai, Doi Inthanon, Pai & Mae Hong Son loop. Misty peaks, hill tribes, cool air.',desc:'Escape into the cool mist of Northern Thailand. This experience winds through Chiang Mai\'s cultural heart, up to Doi Inthanon — Thailand\'s highest peak — and along the legendary Mae Hong Son loop through Pai, where time slows to a drift.',hl:['Sunrise at Doi Inthanon summit','Hill tribe village visits','Pai Canyon golden hour','Misty mountain road drives','Boutique guesthouse stays','Northern Thai cuisine trail'],bg:'linear-gradient(135deg,#1a2a0a,#2d4a1a)'},
+  {id:2,cat:'place',emoji:'🏝️',tag:'Place-Based',title:'Beach Escape',short:'Krabi, Railay, Koh Lanta. Limestone cliffs, longtail boats, turquoise water.',desc:'The kind of beaches that make you forget what day it is. Krabi\'s dramatic limestone karsts, the car-free paradise of Railay Beach, and the laid-back rhythm of Koh Lanta — this is Southern Thailand at its most cinematic.',hl:['Railay Beach — only accessible by boat','Four Islands longtail tour','Koh Lanta sunset walks','Hidden cove kayaking','Seafood on the beach','Cliff viewpoint at dusk'],bg:'linear-gradient(135deg,#0a1a2a,#0d3347)'},
+  {id:3,cat:'place',emoji:'🌿',tag:'Place-Based',title:'Jungle Immersion',short:'Khao Sok National Park, floating bungalows, night safaris, river kayaking.',desc:'One of the oldest rainforests on earth. Spend nights in floating bungalows on Cheow Lan Lake, wake up to gibbons calling, and paddle through ancient limestone formations. No wifi. No noise. Just jungle.',hl:['Floating bungalow overnight','Dawn kayak on the lake','Night safari walk','Bamboo rafting on the Sok River','Wildlife spotting — hornbills & macaques','Stargazing away from all light'],bg:'linear-gradient(135deg,#0a2a0a,#1a3a0d)'},
+  {id:4,cat:'place',emoji:'🌊',tag:'Place-Based',title:'Island Hopping',short:'Koh Samui, Koh Phangan, Koh Tao. Three islands, three vibes, one week.',desc:'Three islands, three completely different personalities. Koh Samui for comfort and waterfalls, Koh Phangan for jungle and beaches beyond the party, Koh Tao for crystal water and perhaps the best snorkelling in Southeast Asia.',hl:['Ang Thong Marine Park day trip','Secret beaches on Koh Phangan','Koh Tao snorkel trail map','Ferry hopping schedule','Budget to luxury options','Sunset beach bars'],bg:'linear-gradient(135deg,#001a2a,#003355)'},
+  {id:5,cat:'place',emoji:'🗺️',tag:'Place-Based',title:'Hidden South',short:'Trang, Koh Mook, Koh Kradan. Unspoilt beaches most tourists never find.',desc:'The tourists haven\'t found this one yet. Trang province hides some of Thailand\'s most pristine beaches — Koh Mook\'s Emerald Cave (only accessible by swimming through a dark cave), and Koh Kradan with its surreal shallow water.',hl:['Emerald Cave swim — enter by flashlight','Koh Kradan — walk-on-water effect','Local Trang dim sum breakfast','Traditional longtail fishing villages','Near-empty beaches','Sunset at Hat Chao Mai'],bg:'linear-gradient(135deg,#0a1a15,#0d3328)'},
+  {id:6,cat:'place',emoji:'🏙️',tag:'Place-Based',title:'Bangkok Deep Dive',short:'Beyond the temples. Street food trails, rooftop bars, canal life, local markets.',desc:'Most people spend two days in Bangkok and think they\'ve seen it. We\'ll show you the city that locals actually live in — the canal communities, the rooftop bars nobody puts on Instagram, the street food lanes in Chinatown at midnight.',hl:['Chinatown midnight food crawl','Canal boat local commute experience','Floating market — the real one','Hidden rooftop bar, no tourists','Local neighbourhood street art trail','Sam Yan night market'],bg:'linear-gradient(135deg,#1a0a2a,#2d1a3d)'},
+  {id:7,cat:'place',emoji:'🚗',tag:'Place-Based',title:'Road Trip Thailand',short:'Self-drive from Bangkok south through Phetchaburi, Hua Hin, Khao Sok to Krabi.',desc:'The windows down, a playlist on, and no fixed arrival time. This self-drive route from Bangkok south through lesser-known coastal towns, jungle, and ending at Krabi is the most freeing way to experience Thailand.',hl:['Phetchaburi royal palace stop','Hua Hin café and market trail','Pranburi hidden beach detour','Khao Sok jungle night stay','Krabi as final destination','Full self-drive guide with GPS waypoints'],bg:'linear-gradient(135deg,#1a1000,#3d2800)'},
+  {id:8,cat:'place',emoji:'🕌',tag:'Place-Based',title:'Spiritual Reset',short:'Chiang Rai, White Temple, meditation retreats, slow river towns.',desc:'For when you need to go somewhere that quiets the noise inside. Chiang Rai\'s surreal temples, a stay at a meditation retreat, and the slow pace of river towns in the Golden Triangle will do something to you that a beach holiday never could.',hl:['Wat Rong Khun — White Temple','Blue Temple at golden hour','One-night meditation retreat','Golden Triangle river boat','Night Bazaar Chiang Rai','Tea plantation visit, Mae Salong'],bg:'linear-gradient(135deg,#1a1500,#332800)'},
+  {id:9,cat:'place',emoji:'🍜',tag:'Place-Based',title:'Foodie Trail',short:'Bangkok street food, Chiang Mai night bazaar, southern Thai Muslim cuisine, cooking classes.',desc:'Thailand is not one cuisine — it\'s dozens of regional food cultures layered on top of each other. This experience is built entirely around eating well, eating often, and understanding the story behind every dish.',hl:['Bangkok — Jay Fai Michelin street food','Chinatown dim sum & roast duck','Chiang Mai — Khao Soi masterclass','Cooking class with a local family','Southern Thai Muslim curry trail','Night market strategy guide'],bg:'linear-gradient(135deg,#2a0a00,#4a1a00)'},
+  {id:10,cat:'place',emoji:'🎒',tag:'Place-Based',title:'Budget Backpacker Blast',short:'Full Thailand loop under $50/day. Hostels, night trains, local transport, maximum adventure.',desc:'Thailand was built for backpackers and it still delivers. This experience maps out the full Thailand loop — Bangkok, north, islands — using night trains, local buses, and hostel dorms. Maximum adventure, minimum spend.',hl:['Night train Bangkok to Chiang Mai','Hostel picks with best social vibes','Free temple and nature spots','Pad Thai under ฿50','Island ferry deals','Under $50/day full budget breakdown'],bg:'linear-gradient(135deg,#0a0a1a,#1a1a2a)'},
+  {id:11,cat:'experience',emoji:'🌿',tag:'Experience-Based',title:'High & Green',short:'Legal cannabis cafés in Bangkok, Chiang Mai chill spots, pairing with street food.',desc:'Since decriminalisation, Thailand has built a café culture around cannabis unlike anywhere in Asia. We guide you through the best, most responsible spots — curated for experience, atmosphere, and the perfect street food pairing afterwards.',hl:['Curated café shortlist — Bangkok & Chiang Mai','Responsible consumption guide','Best food pairings post-visit','Legal landscape explained clearly','Atmospheric rooftop spots','No tourist trap venues'],bg:'linear-gradient(135deg,#0a2a0a,#1a4a0a)'},
+  {id:12,cat:'experience',emoji:'☕',tag:'Experience-Based',title:'Coffee Crawl',short:'Specialty café culture in Bangkok, Chiang Mai\'s insane café scene, barista experiences.',desc:'Chiang Mai has one of the best specialty coffee scenes in Southeast Asia. Bangkok isn\'t far behind. This experience is a deep dive into Thai café culture — the sourcing, the brewing, the aesthetic, and the best cups you\'ll drink anywhere.',hl:['Chiang Mai specialty café trail — 8 stops','Bangkok third-wave café guide','Thai coffee farm visit (Doi Chang)','Barista experience — brew your own','Local vs specialty bean differences','Café photography timing guide'],bg:'linear-gradient(135deg,#2a1500,#4a2800)'},
+  {id:13,cat:'experience',emoji:'🦅',tag:'Experience-Based',title:'Into the Wild',short:'Elephant sanctuaries, night safaris, waterfall hikes, zero phone signal.',desc:'Pure nature immersion. Ethical elephant sanctuaries, night walks in the jungle, hidden waterfalls, and places where your phone has no signal and that actually feels like relief.',hl:['Ethical elephant sanctuary — no riding','Night wildlife safari Khao Yai','Erawan Falls — 7 tiers','Jungle camping one night','Birdwatching at dawn','No-signal digital detox guide'],bg:'linear-gradient(135deg,#0a1a05,#1e3a0f)'},
+  {id:14,cat:'experience',emoji:'🥊',tag:'Experience-Based',title:'Muay Thai & Sweat',short:'Train at a real gym, watch stadium fights in Bangkok, Chiang Mai, Phuket.',desc:'The national sport. Watch it properly — not the tourist show fights, but the real stadium bouts where the crowd moves and the energy is ancient. Or go further and train for a week at a serious gym.',hl:['Lumpinee Stadium fight night, Bangkok','Chiang Mai — best gym for short stays','One-day training session with a pro','Ringside seats guide','Muay Thai history & etiquette','Gym packages for 3–7 day stays'],bg:'linear-gradient(135deg,#2a0000,#4a0a0a)'},
+  {id:15,cat:'experience',emoji:'🪷',tag:'Experience-Based',title:'Temple & Soul',short:'Wat Pho, Doi Suthep, Chiang Rai temples, monk chat, meditation retreats.',desc:'Thailand\'s temples are not all the same. Each carries a different energy, a different history. This experience moves through the most spiritually powerful sites — with monk chat sessions, quiet meditation mornings, and zero tourist rushing.',hl:['Wat Pho — reclining Buddha in stillness','Doi Suthep at sunrise, no crowds','Monk chat session — real conversation','White Temple + Blue Temple, Chiang Rai','One morning meditation with monks','Temple etiquette & dress guide'],bg:'linear-gradient(135deg,#1a1000,#3a2500)'},
+  {id:16,cat:'experience',emoji:'🎉',tag:'Experience-Based',title:'Party Without Apology',short:'Khao San Road, Full Moon Party Koh Phangan, Koh Samui nightlife, rooftop bars.',desc:'Thailand knows how to party — and we know how to do it properly. From legendary Full Moon Party planning to the rooftop bars that locals actually go to. No tourist traps, just great nights.',hl:['Full Moon Party — transport & survival guide','Koh Samui nightlife districts map','Bangkok rooftop bars — real list','Khao San Road — what to skip','After-hours guide Chiang Mai','Safety and logistics for big nights'],bg:'linear-gradient(135deg,#1a0a2a,#330d4a)'},
+  {id:17,cat:'experience',emoji:'🧘',tag:'Experience-Based',title:'Heal & Reset',short:'Thai massage, spa towns, Koh Samui wellness resorts, yoga retreats, detox programs.',desc:'Thailand is one of the best places on earth to heal. This experience is built for burnout recovery — world-class massage, yoga retreats on quiet islands, and wellness programs that don\'t cost a fortune.',hl:['Traditional Thai massage — best schools','Koh Samui wellness resort guide','Yoga retreat shortlist — by budget','Herbal steam & detox programs','Spa town — Chiang Mai thermal springs','Digital detox planning'],bg:'linear-gradient(135deg,#0a1a1a,#0d3333)'},
+  {id:18,cat:'experience',emoji:'🍛',tag:'Experience-Based',title:'Eat Everything',short:'Street food tours, cooking classes, floating markets, Michelin street stalls.',desc:'An experience entirely built around eating. No temples unless they sell food outside. This is the purest food trip we offer — street stalls, cooking classes, market mornings, and nights that end at 2am over noodles.',hl:['Morning market ritual — every city','Michelin street stalls — Bangkok guide','Cooking class with grandmother','Floating market — local pick','Regional Thai dish deep-dives','Food diary & ordering guide'],bg:'linear-gradient(135deg,#2a0a00,#3d1500)'},
+  {id:19,cat:'experience',emoji:'🤿',tag:'Experience-Based',title:'Underwater World',short:'Scuba diving Koh Tao, snorkelling Similan Islands, freediving courses.',desc:'The Gulf of Thailand and Andaman Sea hold two completely different underwater worlds. Koh Tao for learning to dive — one of the cheapest and best places on earth — and the Similans for the most biodiverse reefs in Thailand.',hl:['Koh Tao PADI Open Water course guide','Similan Islands liveaboard planning','Best snorkel spots — no boat needed','Turtle spotting season guide','Freediving intro course, Koh Phangan','Marine life ID guide for Thailand'],bg:'linear-gradient(135deg,#001520,#002a3d)'},
+  {id:20,cat:'experience',emoji:'🎞️',tag:'Experience-Based',title:'Slow & Cinematic',short:'Canal boats, golden hour cafés, river towns, zero rush. Beauty without exhaustion.',desc:'Our most personal experience. No packed schedules, no must-see lists. Just the places that look like films and feel like poems. Designed for people who travel with their eyes wide open and their pace deliberately slow.',hl:['Canal boat at dusk, Bangkok','Golden hour café — hidden rooftop','Amphawa river town, floating market','Slow morning in Pai','Quiet beach morning, Koh Lanta','Photography timing guide for every spot'],bg:'linear-gradient(135deg,#0a0a1a,#0d0d2a)'},
+  {id:21,cat:'place',emoji:'🗾',tag:'Premium — Place-Based',title:'One Month Through Thailand',short:'Mae Hong Son → Chiang Mai → Sukhothai → Ayutthaya → Bangkok → Kanchanaburi → Khao Sok → Koh Samui → Krabi. The full country.',desc:'The definitive Thailand journey. This is for people who want to experience the full sweep of the country — north to south, mountains to islands, ancient ruins to jungle lakes. We plan every leg of a 30-day loop across Thailand\'s most iconic and hidden stops, including transport between each destination, accommodation tone at each stop, and the exact pace that makes it feel effortless rather than exhausting. Enquire for a personalised route — we\'ll tailor the month around your travel style.',hl:['Mae Hong Son Loop — misty highlands','Chiang Mai — cultural base, 4–5 nights','Sukhothai — ancient capital by bicycle','Ayutthaya — ruins at sunset','Bangkok — city deep dive, 3 nights','Kanchanaburi — River Kwai & jungle','Khao Sok — floating bungalow night','Koh Samui / Koh Phangan — island time','Krabi — final drift, Railay & limestone'],bg:'linear-gradient(135deg,#0a1520,#0d2a3d)',premium:true},
+  {id:22,cat:'place',emoji:'🚂',tag:'Experience-Based',title:'Scenic Rail Journey',short:'Thailand\'s most beautiful train routes. River Kwai, Northern Line, Hua Hin, Mae Klong market.',desc:'The journey is the destination. Thailand\'s rail network passes through landscapes that road travel simply cannot touch — mountain tunnels, coastal salt fields, the historic River Kwai viaduct, and the legendary Mae Klong market where trains pass through a functioning market daily. We curate your rail experience, plan the routes, book the right class, and tell you exactly which seat to sit in for the best views. Enquire for full route planning and booking guidance.',hl:['Bangkok → Chiang Mai Northern Line overnight','River Kwai Bridge — historic Wampo Viaduct','Bangkok → Hua Hin — coastal salt fields & classic station','Bangkok → Surat Thani — gateway to the islands','Prachuap Khiri Khan coastal route','Mae Klong Railway Market — train through the stalls'],bg:'linear-gradient(135deg,#1a0a00,#2a1500)',premium:true}
+];
+
+function renderTrips(filter){
+  const grid=document.getElementById('tripsGrid');
+  const list=filter==='all'?trips:trips.filter(t=>t.cat===filter);
+  grid.innerHTML=list.map(t=>`
+    <div class="trip-card reveal${t.premium?' premium-card':''}" onclick="openModal(${t.id})">
+      <div class="trip-visual" style="background:${t.bg}">
+        ${t.premium?'<div class="premium-badge">Premium</div>':''}
+        <div class="trip-emoji">${t.emoji}</div>
+      </div>
+      <div class="trip-body">
+        <span class="trip-tag">${t.tag}</span>
+        <h3>${t.title}</h3>
+        <p>${t.short}</p>
+      </div>
+      <div class="trip-footer">
+        <div>
+          <div class="trip-price-thb">${t.premium?'From ฿1,990':'From ฿490'}</div>
+          <div class="trip-price-usd">${t.premium?'From $54 USD':'From $13 USD'}</div>
+        </div>
+        <span class="trip-btn">Enquire →</span>
+      </div>
+    </div>`).join('');
+  observeReveal();
+}
+
+function filterTrips(cat,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTrips(cat);
+}
+
+function openModal(id){
+  const t=trips.find(x=>x.id===id);
+  document.getElementById('mEmoji').textContent=t.emoji;
+  document.getElementById('mTag').textContent=t.tag;
+  document.getElementById('mTitle').textContent=t.title;
+  document.getElementById('mDesc').textContent=t.desc;
+  document.getElementById('mHL').innerHTML=t.hl.map(h=>`<div class="hl-item">${h}</div>`).join('');
+  var waMsg='Hi! I am interested in the '+t.title+' experience. Can you tell me more?';
+  document.getElementById('mWa').href='https://wa.me/660650350098?text='+encodeURIComponent(waMsg);
+  const pricingEl=document.querySelector('.modal-pricing');
+  if(t.premium){
+    pricingEl.innerHTML=`<h4>Pricing</h4>
+      <div class="price-row"><span>Full Planning Session (90 min)</span><span>฿1,990 / $54</span></div>
+      <div class="price-row"><span>Extended Premium (2 sessions)</span><span>฿3,490 / $95</span></div>
+      <div class="price-row" style="font-size:.8rem;color:var(--gold);margin-top:.5rem"><span colspan="2">✦ Includes complete day-by-day itinerary, transport guide, accommodation picks & on-trip support</span></div>`;
+  } else {
+    pricingEl.innerHTML=`<h4>Pricing</h4>
+      <div class="price-row"><span>Quick Consult (30 min)</span><span>฿490 / $13</span></div>
+      <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿990 / $27</span></div>
+      <div class="price-row"><span>Premium (90 min)</span><span>฿1,990 / $54</span></div>`;
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect();});
+
+function sendWhatsApp(){
+  var name=document.getElementById('fName').value||'Traveller';
+  var trip=document.getElementById('fTrip').value||'a trip';
+  var msg=document.getElementById('fMsg').value||'';
+  var text='Hi! I am '+name+' and I am interested in '+trip+'. '+msg;
+  window.open('https://wa.me/660650350098?text='+encodeURIComponent(text),'_blank');
+}
+
+function scrollContact(){document.getElementById('contact').scrollIntoView({behavior:'smooth'});}
+
+// PARTICLES
+function createParticles(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.style.cssText=`left:${Math.random()*100}%;animation-duration:${9+Math.random()*12}s;animation-delay:${Math.random()*10}s;width:${1+Math.random()}px;height:${1+Math.random()}px`;
+    c.appendChild(p);
+  }
+}
+
+// CURSOR
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+
+// SCROLL
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  document.getElementById('nav').className=sy>50?'scrolled':'';
+  const cta=document.getElementById('floatingCta');
+  sy>600?cta.classList.add('visible'):cta.classList.remove('visible');
+  ['strip1','strip2'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    const bg=document.getElementById('stripBg'+(i+1));
+    if(el&&bg){const r=el.getBoundingClientRect();bg.style.transform=`translateY(${r.top*.3}px)`;}
+  });
+});
+
+// REVEAL
+function observeReveal(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+// MOBILE
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
+
+// INIT
+createParticles();
+renderTrips('all');
+observeReveal();
+</script>
+</body>
+</html>
