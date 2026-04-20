@@ -334,7 +334,7 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justi
     <p>From mountain mist to beach silence — each experience is a world of its own.</p>
   </div>
   <div class="category-tabs reveal">
-    <button class="tab-btn active" onclick="filterTrips('all',this)">All 20</button>
+    <button class="tab-btn active" onclick="filterTrips('all',this)">All 23</button>
     <button class="tab-btn" onclick="filterTrips('place',this)">By Place</button>
     <button class="tab-btn" onclick="filterTrips('experience',this)">By Experience</button>
   </div>
@@ -389,8 +389,8 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justi
     <div class="p-card featured reveal">
       <h3>Full Itinerary</h3>
       <span class="p-tagline">Most popular</span>
-      <span class="p-thb">฿990</span>
-      <span class="p-usd">≈ $27 USD</span>
+      <span class="p-thb">฿690</span>
+      <span class="p-usd">≈ $19 USD</span>
       <ul class="p-features">
         <li>60 minute deep-dive call</li>
         <li>Full day-by-day itinerary</li>
@@ -403,8 +403,8 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justi
     <div class="p-card reveal">
       <h3>Premium Experience</h3>
       <span class="p-tagline">For the discerning traveller</span>
-      <span class="p-thb">฿1,990</span>
-      <span class="p-usd">≈ $54 USD</span>
+      <span class="p-thb">฿990</span>
+      <span class="p-usd">≈ $27 USD</span>
       <ul class="p-features">
         <li>90 minute premium consultation</li>
         <li>Multi-destination planning</li>
@@ -474,6 +474,7 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justi
             <option>Party Without Apology</option><option>Heal & Reset</option><option>Eat Everything</option>
             <option>Underwater World</option><option>Slow & Cinematic</option>
             <option>One Month Through Thailand</option><option>Scenic Rail Journey</option>
+            <option>Rated R Thailand</option>
           </select>
         </div>
         <div class="form-group"><label>Message</label><textarea id="fMsg" placeholder="Tell us your travel dates, group size, and what you're dreaming of..."></textarea></div>
@@ -507,9 +508,9 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);display:flex;justi
       <div class="modal-hl"><h4>What's Included</h4><div id="mHL"></div></div>
       <div class="modal-pricing">
         <h4>Pricing</h4>
-        <div class="price-row"><span>Quick Consult (30 min)</span><span>฿990 / $27</span></div>
-        <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿2,490 / $68</span></div>
-        <div class="price-row"><span>Premium (90 min)</span><span>฿4,990 / $136</span></div>
+        <div class="price-row"><span>Quick Consult (30 min)</span><span>฿490 / $13</span></div>
+        <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿690 / $19</span></div>
+        <div class="price-row"><span>Premium (90 min)</span><span>฿990 / $27</span></div>
       </div>
     </div>
     <div class="modal-acts">
@@ -543,7 +544,8 @@ const trips = [
   {id:19,cat:'experience',emoji:'🤿',tag:'Experience-Based',title:'Underwater World',short:'Scuba diving Koh Tao, snorkelling Similan Islands, freediving courses.',desc:'The Gulf of Thailand and Andaman Sea hold two completely different underwater worlds. Koh Tao for learning to dive — one of the cheapest and best places on earth — and the Similans for the most biodiverse reefs in Thailand.',hl:['Koh Tao PADI Open Water course guide','Similan Islands liveaboard planning','Best snorkel spots — no boat needed','Turtle spotting season guide','Freediving intro course, Koh Phangan','Marine life ID guide for Thailand'],bg:'linear-gradient(135deg,#001520,#002a3d)'},
   {id:20,cat:'experience',emoji:'🎞️',tag:'Experience-Based',title:'Slow & Cinematic',short:'Canal boats, golden hour cafés, river towns, zero rush. Beauty without exhaustion.',desc:'Our most personal experience. No packed schedules, no must-see lists. Just the places that look like films and feel like poems. Designed for people who travel with their eyes wide open and their pace deliberately slow.',hl:['Canal boat at dusk, Bangkok','Golden hour café — hidden rooftop','Amphawa river town, floating market','Slow morning in Pai','Quiet beach morning, Koh Lanta','Photography timing guide for every spot'],bg:'linear-gradient(135deg,#0a0a1a,#0d0d2a)'},
   {id:21,cat:'place',emoji:'🗾',tag:'Premium — Place-Based',title:'One Month Through Thailand',short:'Mae Hong Son → Chiang Mai → Sukhothai → Ayutthaya → Bangkok → Kanchanaburi → Khao Sok → Koh Samui → Krabi. The full country.',desc:'The definitive Thailand journey. This is for people who want to experience the full sweep of the country — north to south, mountains to islands, ancient ruins to jungle lakes. We plan every leg of a 30-day loop across Thailand\'s most iconic and hidden stops, including transport between each destination, accommodation tone at each stop, and the exact pace that makes it feel effortless rather than exhausting. Enquire for a personalised route — we\'ll tailor the month around your travel style.',hl:['Mae Hong Son Loop — misty highlands','Chiang Mai — cultural base, 4–5 nights','Sukhothai — ancient capital by bicycle','Ayutthaya — ruins at sunset','Bangkok — city deep dive, 3 nights','Kanchanaburi — River Kwai & jungle','Khao Sok — floating bungalow night','Koh Samui / Koh Phangan — island time','Krabi — final drift, Railay & limestone'],bg:'linear-gradient(135deg,#0a1520,#0d2a3d)',premium:true},
-  {id:22,cat:'place',emoji:'🚂',tag:'Experience-Based',title:'Scenic Rail Journey',short:'Thailand\'s most beautiful train routes. River Kwai, Northern Line, Hua Hin, Mae Klong market.',desc:'The journey is the destination. Thailand\'s rail network passes through landscapes that road travel simply cannot touch — mountain tunnels, coastal salt fields, the historic River Kwai viaduct, and the legendary Mae Klong market where trains pass through a functioning market daily. We curate your rail experience, plan the routes, book the right class, and tell you exactly which seat to sit in for the best views. Enquire for full route planning and booking guidance.',hl:['Bangkok → Chiang Mai Northern Line overnight','River Kwai Bridge — historic Wampo Viaduct','Bangkok → Hua Hin — coastal salt fields & classic station','Bangkok → Surat Thani — gateway to the islands','Prachuap Khiri Khan coastal route','Mae Klong Railway Market — train through the stalls'],bg:'linear-gradient(135deg,#1a0a00,#2a1500)',premium:true}
+  {id:22,cat:'place',emoji:'🚂',tag:'Experience-Based',title:'Scenic Rail Journey',short:'Thailand\'s most beautiful train routes. River Kwai, Northern Line, Hua Hin, Mae Klong market.',desc:'The journey is the destination. Thailand\'s rail network passes through landscapes that road travel simply cannot touch — mountain tunnels, coastal salt fields, the historic River Kwai viaduct, and the legendary Mae Klong market where trains pass through a functioning market daily. We curate your rail experience, plan the routes, book the right class, and tell you exactly which seat to sit in for the best views. Enquire for full route planning and booking guidance.',hl:['Bangkok → Chiang Mai Northern Line overnight','River Kwai Bridge — historic Wampo Viaduct','Bangkok → Hua Hin — coastal salt fields & classic station','Bangkok → Surat Thani — gateway to the islands','Prachuap Khiri Khan coastal route','Mae Klong Railway Market — train through the stalls'],bg:'linear-gradient(135deg,#1a0a00,#2a1500)',premium:true},
+  {id:23,cat:'experience',emoji:'🔞',tag:'Adults Only',title:'Rated R Thailand',short:'The side of Thailand most travel guides won\'t tell you about. Curated, honest, no surprises.',desc:'Thailand has a side that exists whether you talk about it or not. This experience is for adults who want honest, practical guidance — navigating the nightlife districts, understanding what\'s safe and what\'s not, where locals actually go versus tourist traps, and how to experience it all without getting burned. Discreet, judgment-free, and completely honest. Enquire via WhatsApp or LINE only.',hl:['Honest guide — no sugarcoating','Bangkok nightlife districts mapped','Pattaya — what to know before you go','Phuket Bangla Road — navigated properly','Safety, scams and what to avoid','Discreet WhatsApp or LINE consultation only'],bg:'linear-gradient(135deg,#2a0a0a,#1a0510)',premium:true}
 ];
 
 function renderTrips(filter){
@@ -562,8 +564,8 @@ function renderTrips(filter){
       </div>
       <div class="trip-footer">
         <div>
-          <div class="trip-price-thb">${t.premium?'From ฿1,990':'From ฿490'}</div>
-          <div class="trip-price-usd">${t.premium?'From $54 USD':'From $13 USD'}</div>
+          <div class="trip-price-thb">${t.premium?'From ฿990':'From ฿490'}</div>
+          <div class="trip-price-usd">${t.premium?'From $27 USD':'From $13 USD'}</div>
         </div>
         <span class="trip-btn">Enquire →</span>
       </div>
@@ -589,14 +591,14 @@ function openModal(id){
   const pricingEl=document.querySelector('.modal-pricing');
   if(t.premium){
     pricingEl.innerHTML=`<h4>Pricing</h4>
-      <div class="price-row"><span>Full Planning Session (90 min)</span><span>฿1,990 / $54</span></div>
-      <div class="price-row"><span>Extended Premium (2 sessions)</span><span>฿3,490 / $95</span></div>
+      <div class="price-row"><span>Full Planning Session (90 min)</span><span>฿990 / $27</span></div>
+      <div class="price-row"><span>Extended Premium (2 sessions)</span><span>฿1,790 / $49</span></div>
       <div class="price-row" style="font-size:.8rem;color:var(--gold);margin-top:.5rem"><span colspan="2">✦ Includes complete day-by-day itinerary, transport guide, accommodation picks & on-trip support</span></div>`;
   } else {
     pricingEl.innerHTML=`<h4>Pricing</h4>
       <div class="price-row"><span>Quick Consult (30 min)</span><span>฿490 / $13</span></div>
-      <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿990 / $27</span></div>
-      <div class="price-row"><span>Premium (90 min)</span><span>฿1,990 / $54</span></div>`;
+      <div class="price-row"><span>Full Itinerary (60 min)</span><span>฿690 / $19</span></div>
+      <div class="price-row"><span>Premium (90 min)</span><span>฿990 / $27</span></div>`;
   }
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
