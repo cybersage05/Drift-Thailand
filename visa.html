@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visa Consulting — Drift Thailand</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{--gold:#C9A84C;--gold-light:#E2C47A;--gold-dim:rgba(201,168,76,.12);--cream:#F5F0E8;--cream-dim:rgba(245,240,232,.65);--dark:#080808;--dark2:#101010;--dark3:#181818;--border:rgba(201,168,76,.18);--border-light:rgba(245,240,232,.07);--teal:#4dd4f0;--teal-dim:rgba(77,212,240,.1);}
+body{background:var(--dark);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;line-height:1.7}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold)}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:200px}
+.cursor{width:6px;height:6px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(201,168,76,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .2s ease}
+@media(hover:none){.cursor,.cursor-ring{display:none}}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);font-style:italic;line-height:1;text-decoration:none;display:block}
+.nav-logo span{color:var(--cream-dim);font-style:normal;font-weight:300;font-size:.6rem;display:block;letter-spacing:.28em;text-transform:uppercase;margin-top:3px}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--cream-dim);text-decoration:none;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-family:'DM Mono',monospace;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-cta{background:var(--gold);border:1px solid var(--gold);color:var(--dark);padding:.45rem 1.2rem;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:22px;height:1px;background:var(--gold);display:block}
+@media(max-width:768px){nav{padding:.9rem 1.2rem}.nav-links,.nav-cta{display:none}.hamburger{display:flex}}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,8,8,.99);z-index:999;flex-direction:column;justify-content:center;align-items:center;gap:2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--cream);text-decoration:none;font-size:1.8rem;font-family:'Playfair Display',serif;transition:color .3s;padding:.4rem 0}
+.mobile-menu a.active,.mobile-menu a:hover{color:var(--gold)}
+.mobile-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:1px solid var(--border);color:var(--cream);width:40px;height:40px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* PAGE HERO */
+.page-hero{padding:9rem 1.5rem 5rem;background:linear-gradient(135deg,#04090d 0%,#071525 60%,#04090d 100%);position:relative;overflow:hidden;text-align:center}
+.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,212,240,.4),transparent)}
+.page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,212,240,.2),transparent)}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(77,212,240,.06) 0%,transparent 70%);pointer-events:none}
+.page-hero-content{position:relative;z-index:2;max-width:680px;margin:0 auto}
+.section-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;display:block}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,7vw,5rem);font-weight:400;line-height:1;margin-bottom:1.2rem}
+.page-hero h1 em{font-style:italic;color:var(--teal)}
+.page-hero p{color:var(--cream-dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin:0 auto 2.5rem}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.btn-teal{background:var(--teal);color:var(--dark);padding:.85rem 2rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;border:none;cursor:pointer;display:inline-block}
+.btn-teal:hover{opacity:.85;transform:translateY(-2px)}
+.btn-outline-teal{background:transparent;border:1px solid var(--teal);color:var(--teal);padding:.85rem 2rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-outline-teal:hover{background:var(--teal);color:var(--dark)}
+
+/* VISA TYPES */
+.visa-types-section{padding:5rem 1.5rem;max-width:1000px;margin:0 auto}
+.visa-types-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:400;margin-bottom:2.5rem;line-height:1.2}
+.visa-types-section h2 em{font-style:italic;color:var(--teal)}
+.visa-list{display:flex;flex-direction:column;gap:.8rem}
+.visa-item{border:1px solid rgba(77,212,240,.12);padding:1.4rem 1.6rem;transition:all .3s;position:relative;overflow:hidden;cursor:default}
+.visa-item:hover{border-color:rgba(77,212,240,.35);background:rgba(77,212,240,.04)}
+.visa-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);opacity:0;transition:opacity .3s}
+.visa-item:hover::before{opacity:1}
+.vi-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem}
+.vi-name{font-family:'Playfair Display',serif;font-size:1.15rem}
+.vi-badge{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(77,212,240,.3);padding:.2rem .65rem;white-space:nowrap}
+.vi-desc{font-size:.92rem;color:var(--cream-dim);line-height:1.75}
+.vi-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.vi-tag{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid rgba(77,212,240,.15);color:rgba(77,212,240,.6)}
+
+/* SERVICES CARDS */
+.services-section{padding:4rem 1.5rem 5rem;background:linear-gradient(180deg,var(--dark) 0%,#060d12 50%,var(--dark) 100%)}
+.services-inner{max-width:1000px;margin:0 auto}
+.services-inner h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:400;margin-bottom:2.5rem;text-align:center}
+.services-inner h2 em{font-style:italic;color:var(--teal)}
+.vc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+.vc-card{background:rgba(77,212,240,.03);border:1px solid rgba(77,212,240,.1);padding:1.8rem;position:relative;transition:all .3s}
+.vc-card:hover{border-color:rgba(77,212,240,.3);transform:translateY(-4px)}
+.vc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);opacity:.25}
+.vc-icon{font-size:1.8rem;margin-bottom:1rem}
+.vc-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.5rem}
+.vc-desc{color:var(--cream-dim);font-size:.9rem;line-height:1.8;margin-bottom:1rem}
+.vc-price{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;color:var(--teal);text-transform:uppercase}
+.vc-card.note{background:rgba(77,212,240,.06);border-color:rgba(77,212,240,.18)}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:1.5rem;padding:0 1.5rem;max-width:1000px;margin:0 auto}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+
+/* CONTACT */
+.contact-section{padding:5rem 1.5rem}
+.contact-inner{max-width:700px;margin:0 auto;text-align:center}
+.contact-inner h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:400;margin-bottom:1rem}
+.contact-inner h2 em{font-style:italic;color:var(--teal)}
+.contact-inner p{color:var(--cream-dim);font-size:1rem;max-width:420px;margin:0 auto 2.5rem;line-height:1.85}
+.channels{display:flex;flex-direction:column;gap:.8rem;max-width:420px;margin:0 auto}
+.channel{display:flex;align-items:center;gap:1rem;padding:1rem 1.3rem;border:1px solid var(--border-light);text-decoration:none;color:var(--cream);transition:all .3s}
+.channel:hover{border-color:rgba(77,212,240,.4);transform:translateX(4px)}
+.ch-icon{font-size:1.4rem;flex-shrink:0}
+.ch-info{flex:1;text-align:left}
+.ch-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.1rem}
+.ch-val{font-size:.9rem;color:var(--cream-dim)}
+.ch-arrow{color:var(--teal)}
+
+/* FOOTER */
+footer{padding:2rem 1.5rem;border-top:1px solid var(--border)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);font-style:italic;text-decoration:none}
+.footer-links{display:flex;gap:1.8rem;flex-wrap:wrap}
+.footer-links a{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--cream-dim);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{width:100%;text-align:center;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:#444;padding-top:1.2rem;border-top:1px solid var(--border-light);margin-top:.5rem}
+
+.floating-cta{position:fixed;bottom:1.5rem;right:1.2rem;z-index:500;display:flex;flex-direction:column;gap:.6rem}
+.float-btn{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:transform .2s}
+.float-btn:hover{transform:scale(1.1)}
+.float-wa{background:#25D366}.float-line{background:#06C755}
+.reveal{opacity:0;transform:translateY(30px);transition:all .75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="floating-cta">
+  <a href="https://wa.me/660650350098?text=Hi! I need help with a Thailand visa." target="_blank" class="float-btn float-wa">💬</a>
+  <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="float-btn float-line">💚</a>
+</div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobile()">✕</button>
+  <a href="index.html">Home</a>
+  <a href="travel.html">Travel</a>
+  <a href="visa.html" class="active">Visa</a>
+  <a href="realestate.html">Real Estate</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Drift Thailand<span>Travel · Visa · Real Estate</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="travel.html">Travel</a></li>
+    <li><a href="visa.html" class="active">Visa</a></li>
+    <li><a href="realestate.html">Real Estate</a></li>
+  </ul>
+  <a href="https://wa.me/660650350098?text=Hi! I need help with a Thailand visa." target="_blank" class="nav-cta">💬 Ask Us</a>
+  <button class="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="page-hero-content">
+    <span class="section-label">Visa Consulting</span>
+    <h1>Stay longer.<br><em>Stay legally.</em></h1>
+    <p>Thailand's visa landscape is confusing and frequently updated. We cut through the noise and tell you exactly which visa fits your situation — and how to get it.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/660650350098?text=Hi! I need help with a Thailand visa." target="_blank" class="btn-teal">💬 WhatsApp Us</a>
+      <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="btn-outline-teal">💚 LINE</a>
+    </div>
+  </div>
+</div>
+
+<!-- VISA TYPES -->
+<section class="visa-types-section">
+  <div class="reveal">
+    <span class="section-label">Visa Options</span>
+    <h2>Which visa is <em>right for you?</em></h2>
+  </div>
+  <div class="visa-list reveal">
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">Thailand Elite Visa</span><span class="vi-badge">5 – 20 years</span></div>
+      <div class="vi-desc">Long-term privileged entry for serious expats and investors. Multiple tiers from 5 to 20 years. Fast-track immigration, no 90-day reports required.</div>
+      <div class="vi-tags"><span class="vi-tag">Investor</span><span class="vi-tag">Expat</span><span class="vi-tag">No income proof</span><span class="vi-tag">Fast-track immigration</span></div>
+    </div>
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">LTR Visa — Long-Term Resident</span><span class="vi-badge">10 years</span></div>
+      <div class="vi-desc">Thailand's premium residency visa for wealthy retirees, remote workers, and skilled professionals. 10-year validity, flat 17% personal income tax on foreign income.</div>
+      <div class="vi-tags"><span class="vi-tag">Wealthy retiree</span><span class="vi-tag">Remote worker</span><span class="vi-tag">Skilled professional</span><span class="vi-tag">Tax benefits</span></div>
+    </div>
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">Digital Nomad — DEST Visa</span><span class="vi-badge">180 days</span></div>
+      <div class="vi-desc">For remote workers employed by foreign companies. Work from Thailand legally without a Thai work permit. Renewable and relatively straightforward to obtain.</div>
+      <div class="vi-tags"><span class="vi-tag">Remote workers</span><span class="vi-tag">Freelancers</span><span class="vi-tag">No work permit needed</span></div>
+    </div>
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">Non-Immigrant B</span><span class="vi-badge">1 year+</span></div>
+      <div class="vi-desc">Business visa for those working or investing in Thailand. Required before obtaining a work permit. Annual renewal, pathway to long-term stay.</div>
+      <div class="vi-tags"><span class="vi-tag">Business</span><span class="vi-tag">Work permit</span><span class="vi-tag">Investment</span></div>
+    </div>
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">Retirement Visa — O-A</span><span class="vi-badge">1 year renewable</span></div>
+      <div class="vi-desc">For retirees aged 50+. Requires proof of pension or savings. Annual renewal. We guide the full process including bank account setup and 90-day reporting.</div>
+      <div class="vi-tags"><span class="vi-tag">Age 50+</span><span class="vi-tag">Annual renewal</span><span class="vi-tag">Pension or savings</span></div>
+    </div>
+    <div class="visa-item">
+      <div class="vi-head"><span class="vi-name">Tourist Visa & TR Extensions</span><span class="vi-badge">30 – 60 days</span></div>
+      <div class="vi-desc">Already in Thailand and want to extend? We guide TR extensions at immigration, border run strategies, and when to upgrade to a proper long-term visa.</div>
+      <div class="vi-tags"><span class="vi-tag">Short stay</span><span class="vi-tag">Extension guidance</span><span class="vi-tag">Border run tips</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+<!-- SERVICE PACKAGES -->
+<section class="services-section">
+  <div class="services-inner">
+    <h2 class="reveal">What we <em>actually do</em> for you</h2>
+    <div class="vc-grid">
+      <div class="vc-card reveal">
+        <div class="vc-icon">🔍</div>
+        <div class="vc-title">Visa Assessment</div>
+        <div class="vc-desc">Tell us your nationality, income, purpose, and how long you want to stay. We identify the best visa path for your exact situation — no guesswork.</div>
+        <div class="vc-price">฿490 · 30 min consult</div>
+      </div>
+      <div class="vc-card reveal">
+        <div class="vc-icon">📋</div>
+        <div class="vc-title">Full Application Guide</div>
+        <div class="vc-desc">Complete checklist, document preparation, agent referrals, timeline and total cost breakdown — everything you need to apply with confidence.</div>
+        <div class="vc-price">฿990 · Full package</div>
+      </div>
+      <div class="vc-card reveal">
+        <div class="vc-icon">🔄</div>
+        <div class="vc-title">Extension & Renewal</div>
+        <div class="vc-desc">Already in Thailand? We guide you through extending, renewing, or switching your visa category — without the immigration queue stress.</div>
+        <div class="vc-price">฿690 · Renewal guide</div>
+      </div>
+      <div class="vc-card note reveal">
+        <div class="vc-icon">⚠️</div>
+        <div class="vc-title">Honest Disclaimer</div>
+        <div class="vc-desc">Drift Thailand provides consulting and honest guidance — we are not a licensed immigration law firm. For complex legal cases, we refer you to trusted attorneys.</div>
+        <div class="vc-price" style="color:rgba(77,212,240,.6)">Always honest · Always clear</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner reveal">
+    <span class="section-label">Ready to Stay</span>
+    <h2>Let's figure out<br>your <em>visa path.</em></h2>
+    <p>Send us a message on any channel. Tell us your nationality, situation, and how long you want to be in Thailand — we'll take it from there.</p>
+    <div class="channels">
+      <a href="https://wa.me/660650350098?text=Hi! I need help with a Thailand visa." target="_blank" class="channel">
+        <span class="ch-icon">💬</span>
+        <div class="ch-info"><span class="ch-label">WhatsApp</span><span class="ch-val">+66 065 035 0098</span></div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a href="https://line.me/ti/p/zMYlsyio9y" target="_blank" class="channel">
+        <span class="ch-icon">💚</span>
+        <div class="ch-info"><span class="ch-label">LINE</span><span class="ch-val">reevan_dsouza</span></div>
+        <span class="ch-arrow">→</span>
+      </a>
+      <a href="mailto:dsouzareevan05@gmail.com" class="channel">
+        <span class="ch-icon">✉️</span>
+        <div class="ch-info"><span class="ch-label">Email</span><span class="ch-val">dsouzareevan05@gmail.com</span></div>
+        <span class="ch-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="footer-logo">Drift Thailand</a>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="travel.html">Travel</a>
+      <a href="realestate.html">Real Estate</a>
+      <a href="https://wa.me/660650350098" target="_blank">WhatsApp</a>
+    </div>
+    <div class="footer-copy">© 2025 Drift Thailand · Visa guidance · Not a licensed law firm</div>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
